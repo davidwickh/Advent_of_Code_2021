@@ -3,44 +3,61 @@
 from abc import abstractproperty
 
 with open("/Users/David/Documents/GitHub/Advent_of_Code_2021/04.12/input.in") as fin:
-    number_calls = fin.readline()
-    boards = fin.read().strip().split( '\n')
-
-# Splitting boards into dictionary
-boards_new = []
-boards_dict = {}
-for row in boards:
-    if row != '':
-        boards_new.append([row])
-
-h = 5    
-count = 0
-board_num = 0
-for row in boards_new:
-    if count == 0:
-        boards_dict['board: ' + str(board_num)] = row
-    elif count < h and not 0:
-        boards_dict['board: ' + str(board_num)].append(row)
-    count +=1
-    if count == h:
-        count = 0
-        board_num += 1
+    number_calls, *boards = fin.read().split('\n\n')
+    number_calls = [int(i) for i in number_calls.split(',')]
+    #boards = fin.read().strip().split('\n')
+    boards = [[[int(col) for col in row.split()] for row in board.split('\n') ] for board in boards ]
 
 
-# Numbers that are called function
-def nums_called(num_list, turn):
-    int(num_list)
-    nums_called = num_list[:turn]
-    return nums_called
+# Marking the board function
+def mark_board(number_called, board):
+    for row in board:
+        for col in range(0, len(row)):
+            if row[col] == number_called:
+                row[col] = -1
 
+# Adding the remainder of the board
+def add_board(board):
+    count = 0
+    for row in board:
+        for col in row:
+            if col != -1:
+                count += col
+    return count
 
-# Checking a board for a win function
-def check_win(dictionary=None):
-    for board_num in dictionary:
-        board = dictionary[board_num]
-        
+# Check for winner
+def win_check(board):
 
+    won = False
+    for row in board:
+        won = all(elem in [-1] for elem in row)
 
-    pass
+        if won:
+            return won
 
-#check_win(boards_dict)
+    for col in range(0, 5):
+        won = all(elem in [-1] for elem in [row[col] for row in board])
+
+        if won:
+            return won
+
+    return won
+
+def part1():
+    for num in number_calls:
+        for board in boards:
+            mark_board(num, board)
+
+            if win_check(board):
+                return add_board(board) * num
+
+def part2():
+    """
+    Try to find the last board that will win, and then sum the rest of it
+    """
+    last_board = False
+
+    while last_board is False:
+        for board in boards:
+            mark_board(n)
+    
