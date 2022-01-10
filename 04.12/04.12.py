@@ -51,13 +51,23 @@ def part1():
             if win_check(board):
                 return add_board(board) * num
 
+"""
 def part2():
-    """
+    
     Try to find the last board that will win, and then sum the rest of it
-    """
     last_board = False
+    boards_won = 0
 
     while last_board is False:
-        for board in boards:
-            mark_board(n)
-    
+        for num in number_calls:
+            for board in boards: 
+                mark_board(num, board)
+
+                if win_check(board):
+                    boards_won += 1
+
+                if boards_won == boards:
+                    return add_board(board) * num
+"""
+ans = part1
+print(ans)
