@@ -1,12 +1,11 @@
 
 # Input handeling
-from abc import abstractproperty
 
 with open("/Users/David/Documents/GitHub/Advent_of_Code_2021/04.12/input.in") as fin:
     number_calls, *boards = fin.read().split('\n\n')
     number_calls = [int(i) for i in number_calls.split(',')]
     #boards = fin.read().strip().split('\n')
-    boards = [[[int(col) for col in row.split()] for row in board.split('\n') ] for board in boards ]
+    allboards = [[[int(col) for col in row.split()] for row in board.split('\n') ] for board in boards ]
 
 
 # Marking the board function
@@ -44,6 +43,7 @@ def win_check(board):
     return won
 
 def part1():
+    print(number_calls)
     for num in number_calls:
         for board in boards:
             mark_board(num, board)
@@ -51,23 +51,30 @@ def part1():
             if win_check(board):
                 return add_board(board) * num
 
-"""
-def part2():
-    
-    Try to find the last board that will win, and then sum the rest of it
+def part2(number_calls, allboards):
     last_board = False
-    boards_won = 0
+    numbers = number_calls
+    boards = allboards
 
-    while last_board is False:
-        for num in number_calls:
-            for board in boards: 
-                mark_board(num, board)
+    while not last_board:
+        number = numbers[0]
+        numbers = numbers[1:]
 
-                if win_check(board):
-                    boards_won += 1
+        for board in boards:
+            mark_board(number, board)
+        
+        index = 0
+        while index < len(boards):
+            if win_check(boards[index]):
+                if len(boards) > 1:
+                    boards.pop(index)
+                
+                else:
+                    last_board = True
+                    return add_board(boards[index]) * number
+            
+            else:
+                index += 1
 
-                if boards_won == boards:
-                    return add_board(board) * num
-"""
-ans = part1
+ans = part2(number_calls, allboards)
 print(ans)
