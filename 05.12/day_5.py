@@ -1,10 +1,5 @@
-# Data input and handelling
+# Data input and handling
 with open("/Users/David/Documents/GitHub/Advent_of_Code_2021/05.12/input.in") as fin:
-    data = fin.read().strip().split('\n')
-    data = [int(i) for i in data.split(' -> ')]
-    
+    data = fin.read().strip()
+    data = [x.split(' -> ') for x in data.split('\n')]
 
-    #allboards = [[[int(col) for col in row.split()] for row in board.split('\n') ] for board in boards ]
-
-
-print(data)
