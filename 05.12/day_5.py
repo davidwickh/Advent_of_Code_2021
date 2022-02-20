@@ -14,7 +14,7 @@ with open("/Users/David/Documents/GitHub/Advent_of_Code_2021/05.12/input.in") as
 # ]
 
 # Create a zeros 2 x 2 vector the size of the field
-max_num = int(max(map(max, data)))    # Finding the max number in data set
+max_num = int(max(map(max, data))) + 1    # Finding the max number in data set
 field = np.zeros((max_num, max_num), dtype=int)
 
 # Splitting the data into a list of x values and y values
@@ -33,11 +33,11 @@ count = 0
 for row in x_lst:
     x = row
     if count == 0:
-        x1_lst.append(x)
+        x1_lst.append(int(x))
         count += 1
         continue
     if count == 1:
-        x2_lst.append(x)
+        x2_lst.append(int(x))
         count -= 1
         continue
 y1_lst = []
@@ -46,11 +46,11 @@ count = 0
 for row in y_lst:
     y = row
     if count == 0:
-        y1_lst.append(y)
+        y1_lst.append(int(y))
         count += 1
         continue
     if count == 1:
-        y2_lst.append(y)
+        y2_lst.append(int(y))
         count -= 1
         continue
 
@@ -61,4 +61,20 @@ for r in range(len(y1_lst)):
         x1 = x1_lst[r]
         x2 = x2_lst[r]
         
-        
+        if (y1 - y2) != 0: 
+            for i in range(abs(y1 - y2)):
+                y = min(y1, y2)
+                x = min(x1, x2)
+                y += i
+                field[x][y] += 1
+                
+        if (x1 - x2) != 0: 
+            for i in range(abs(x1 - x2)):
+                y = min(y1, y2)
+                x = min(x1, x2)
+                x += i
+                field[x][y] += 1
+                
+                
+count = np.count_nonzero(field > 0)      
+print(count)          
